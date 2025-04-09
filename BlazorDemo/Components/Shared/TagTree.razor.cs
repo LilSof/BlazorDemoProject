@@ -8,8 +8,6 @@ namespace BlazorDemo.Components.Shared
         [Parameter] public List<TItem> Items { get; set; }
         [Parameter] public Func<TItem, string> ItemText { get; set; }
         [Parameter] public Func<TItem, List<TItem>> GetChildren { get; set; }
-        [Parameter] public List<TItem> SelectedItems { get; set; } = new();
-        [Parameter] public EventCallback<List<TItem>> OnSelectionChanged { get; set; }
 
         [Parameter] public EventCallback<TItem> OnDelete { get; set; }
         [Parameter] public EventCallback<(TItem item, string newName)> OnRename { get; set; }
@@ -43,13 +41,28 @@ namespace BlazorDemo.Components.Shared
 
         private void StartEditing(TItem item)
         {
-            EditingItem = item;
-            EditText = ItemText(item);
+            if (EditingItem != null && GetId(EditingItem) == GetId(item))
+            {
+                EditingItem = default;
+                EditText = string.Empty;
+            }
+            else
+            {
+                EditingItem = item;
+                EditText = ItemText(item);
+            }
         }
 
         private void StartAddingChild(TItem item)
         {
-            AddingChildTo = item;
+            if (AddingChildTo != null && GetId(AddingChildTo) == GetId(item))
+            {
+                AddingChildTo = default;
+            }
+            else
+            {
+                AddingChildTo = item;
+            }
             NewChildName = string.Empty;
         }
 

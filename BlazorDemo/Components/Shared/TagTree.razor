@@ -12,10 +12,10 @@
                     {
                             <label class="custom-field three">
                                 <input type="text"
-                                       class="@(string.IsNullOrWhiteSpace(EditText) ? "" : "dirty")"
-                                       @bind="EditText"
+                                       value="@EditText"
+                                       @oninput="e => EditText = e.Value?.ToString() ?? String.Empty"
                                        @onkeydown="HandleEditKey"
-                                       placeholder="&nbsp;" />
+                                       placeholder="Edit the name..." />
                             </label>
                     }
                     else
@@ -39,11 +39,10 @@
                 {
                         <label class="custom-field three">
                             <input type="text"
-                                   class="@(string.IsNullOrWhiteSpace(NewChildName) ? "" : "dirty")"
                                    value="@NewChildName"
-                                   @oninput="e => NewChildName = e.Value?.ToString()"
+                                   @oninput="e => NewChildName = e.Value?.ToString() ?? String.Empty"
                                    @onkeydown="HandleAddChildKey"
-                                   placeholder="&nbsp;" />
+                                   placeholder="Create new name..." />
                         </label>
 
                 }
@@ -54,8 +53,6 @@
                              Items="GetChildren(item)"
                              ItemText="ItemText"
                              GetChildren="GetChildren"
-                             SelectedItems="SelectedItems"
-                             OnSelectionChanged="OnSelectionChanged"
                              OnDelete="OnDelete"
                              OnRename="OnRename"
                              OnAddChild="OnAddChild"

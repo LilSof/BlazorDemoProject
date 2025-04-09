@@ -30,11 +30,9 @@
         <div class="hint-item">Interactive item. Press enter to save edit/create</div>
         <div class="tags-wrapper">
             <TagTree TItem="Tag"
-                        Items="Tags"
+                        Items="_tags"
                         ItemText="tag => tag.Name"
                         GetChildren="tag => tag.Children"
-                        SelectedItems="SelectedTags"
-                        OnSelectionChanged="HandleSelectionChanged"
                         OnDelete="HandleDelete"
                         OnRename="HandleRename"
                         OnAddChild="HandleAddChild"

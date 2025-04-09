@@ -4,12 +4,12 @@ namespace BlazorDemo.Components.Pages
 {
     public partial class Home
     {
-        private List<Tag> Tags = new();
+        private List<Tag> _tags = new();
         private List<ProjectHighlight> _projects = new();
 
         protected override void OnInitialized()
         {
-            Tags = new()
+            _tags = new()
             {
                 new Tag
                 {
@@ -69,36 +69,32 @@ namespace BlazorDemo.Components.Pages
                 {
                     Title = "📦 ParcelLocker Dashboard",
                     Description = "Real-time data visualization of current data using Highcharts and Blazor. Includes dynamic filtering, responsive grid layout, and performance stats.",
-                    Tags = new[] { "Blazor", "Highcharts", "SQL" },
+                    Tags = new[] { "Blazor Server", "Highcharts", "SQL" },
                     TagColors = new[] { "success", "secondary", "dark" }
                 },
                 new ProjectHighlight
                 {
                     Title = "🧠 Tag Manager",
                     Description = "Custom-built tag tree (like the one above!) to manage recursive tagging with add/edit/delete functionality.",
-                    Tags = new[] { "Blazor", "UX Logic", "Component Design" },
+                    Tags = new[] { "Blazor Server", "UX Logic", "Component Design" },
                     TagColors = new[] { "info text-dark", "warning text-dark", "primary" }
                 },
                 new ProjectHighlight
                 {
                     Title = "🌍 Multi-Company Statistic Portal",
                     Description = "Enterprise tool for viewing and exporting usage statistics across partnered companies. Custom filtering logic, export-to-Excel, and beautiful charts.",
-                    Tags = new[] { "Entity Framework", "REST API", "Blazor Server", "SQL" },
+                    Tags = new[] { "Dapper", "REST API", "Blazor Server", "SQL" },
                     TagColors = new[] { "success", "danger", "dark", "dark" }
                 }
             };
         }
 
-        private List<Tag> SelectedTags = new();
-
-        private void HandleSelectionChanged(List<Tag> selected)
-        {
-            SelectedTags = selected;
-        }
-
         private void HandleDelete(Tag tag)
         {
-            RemoveTagRecursive(Tags, tag);
+            if (!RemoveTagRecursive(_tags, tag))
+            {
+                Console.WriteLine("Tag not found for deletion.");
+            }
         }
 
         private bool RemoveTagRecursive(List<Tag> list, Tag tagToRemove)
@@ -121,23 +117,68 @@ namespace BlazorDemo.Components.Pages
 
         private void HandleRename((Tag item, string newName) rename)
         {
-            rename.item.Name = rename.newName;
-            StateHasChanged();
+            try
+            {
+                var tagToRename = FindTagById(_tags, rename.item.Id);
+                if (tagToRename != null)
+                {
+                    tagToRename.Name = rename.newName;
+                    StateHasChanged();
+                }
+                else
+                {
+                    Console.WriteLine("Tag not found for renaming.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Rename error: {ex.Message}");
+            }
+        }
+
+        private Tag? FindTagById(List<Tag> list, Guid id)
+        {
+            foreach (var tag in list)
+            {
+                if (tag.Id == id)
+                    return tag;
+
+                var found = FindTagById(tag.Children, id);
+                if (found != null)
+                    return found;
+            }
+            return null;
         }
 
         private void HandleAddChild((Tag parent, string childName) add)
         {
-            if (!string.IsNullOrWhiteSpace(add.childName))
+            try
             {
-                add.parent.Children.Add(new Tag
+                if (!string.IsNullOrWhiteSpace(add.childName))
                 {
-                    Id = Guid.NewGuid(),
-                    ParentId = add.parent.Id,
-                    Name = add.childName,
-                    Children = new()
-                });
-                StateHasChanged();
+                    var parentTag = FindTagById(_tags, add.parent.Id);
+                    if (parentTag != null)
+                    {
+                        parentTag.Children.Add(new Tag
+                        {
+                            Id = Guid.NewGuid(),
+                            ParentId = parentTag.Id,
+                            Name = add.childName,
+                            Children = new()
+                        });
+                        StateHasChanged();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Parent tag not found for adding child.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"AddChild error: {ex.Message}");
             }
         }
     }
+
 }
