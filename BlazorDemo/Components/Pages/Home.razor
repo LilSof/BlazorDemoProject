@@ -1,0 +1,55 @@
+﻿@page "/"
+@using BlazorDemo.Components.Shared
+@using BlazorDemo.Models
+<div class="introduction-page-wrapper">
+
+<PageTitle>Tags component</PageTitle>
+
+<div class="row block-items-wrapper">
+    
+    <div class="col-md-6 block-item">
+            <h2>Hello 👋</h2>
+                <h5><p>I’m Sofiia Vozniuk, a passionate full-stack developer with a focus on Blazor, .NET, and intuitive UI design.</p></h5>
+
+                I combine clean code with creative thinking to build interfaces that not only work — but feel right. With a background in both development and design, I bring a unique perspective to user experience, making sure every interaction feels seamless and intentional.<br />
+
+                I’ve worked with modern tech, often taking the lead on interactive UI components, pixel-perfect layouts, and responsive designs.<br />
+
+                I'm constantly learning, iterating, and refining — and I'm always excited to take on meaningful projects that make people’s lives easier.<br />
+            <p>
+                I also enjoy drawing, design, and bringing personality into my projects ✨
+            </p>
+            <a class="btn btn-group-lg btn-outline-primary"
+               href="files/SofiiaVozniuk_Resume.pdf"
+               target="_blank">
+                📄 See My Resume
+            </a>
+    </div>
+    <div class="col-md-6 block-item">
+        <h3>My Skill Tree 🌿</h3>
+        <div class="hint-item">Interactive item. Press enter to save edit/create</div>
+        <div class="tags-wrapper">
+            <TagTree TItem="Tag"
+                        Items="Tags"
+                        ItemText="tag => tag.Name"
+                        GetChildren="tag => tag.Children"
+                        SelectedItems="SelectedTags"
+                        OnSelectionChanged="HandleSelectionChanged"
+                        OnDelete="HandleDelete"
+                        OnRename="HandleRename"
+                        OnAddChild="HandleAddChild"
+                        GetId="tag => tag.Id" />
+        </div>
+    </div>
+    </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <h3 class="text-center mb-4">✨ Project Highlights</h3>
+            </div>
+            <div class="cards-wrapper">
+                @foreach (var item in _projects){
+                    <ProjectCard Highlight="item"></ProjectCard>
+                }
+            </div>
+    </div>
+</div>

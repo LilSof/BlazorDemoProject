@@ -1,0 +1,68 @@
+﻿@typeparam TItem
+
+<div class="tag-tree">
+    @if (Items != null)
+    {
+        <ul>
+        @foreach (var item in Items)
+        {
+            <li>
+                <div class="tag-item">
+                    @if (EditingItem != null && GetId(EditingItem) == GetId(item))
+                    {
+                            <label class="custom-field three">
+                                <input type="text"
+                                       class="@(string.IsNullOrWhiteSpace(EditText) ? "" : "dirty")"
+                                       @bind="EditText"
+                                       @onkeydown="HandleEditKey"
+                                       placeholder="&nbsp;" />
+                            </label>
+                    }
+                    else
+                    {
+                        <span>@ItemText(item)</span>
+                    }
+                    <div>
+                        <button class="icon-btn" @onclick="@(() => StartEditing(item))">
+                            <i class="fas fa-pen text-primary"></i>
+                        </button>
+                        <button class="icon-btn" @onclick="@(() => DeleteItem(item))">
+                            <i class="fas fa-trash text-danger"></i>
+                        </button>
+                        <button class="icon-btn" @onclick="@(() => StartAddingChild(item))">
+                            <i class="fas fa-plus text-success"></i>
+                        </button>
+                    </div>
+                </div>
+
+                @if (AddingChildTo != null && GetId(AddingChildTo) == GetId(item))
+                {
+                        <label class="custom-field three">
+                            <input type="text"
+                                   class="@(string.IsNullOrWhiteSpace(NewChildName) ? "" : "dirty")"
+                                   value="@NewChildName"
+                                   @oninput="e => NewChildName = e.Value?.ToString()"
+                                   @onkeydown="HandleAddChildKey"
+                                   placeholder="&nbsp;" />
+                        </label>
+
+                }
+
+                @if (GetChildren(item)?.Any() == true)
+                {
+                    <TagTree TItem="TItem"
+                             Items="GetChildren(item)"
+                             ItemText="ItemText"
+                             GetChildren="GetChildren"
+                             SelectedItems="SelectedItems"
+                             OnSelectionChanged="OnSelectionChanged"
+                             OnDelete="OnDelete"
+                             OnRename="OnRename"
+                             OnAddChild="OnAddChild"
+                             GetId="GetId" />
+                }
+            </li>
+        }
+        </ul>
+    }
+</div>

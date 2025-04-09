@@ -1,0 +1,102 @@
+﻿.tag-tree ul {
+    list-style-type: none;
+    padding-left: 1rem;
+    margin: 0;
+}
+
+.tag-entry {
+    border-bottom: 1px solid #ddd;
+    padding: 0.5rem 0;
+}
+
+.tag-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid #d1d1d1;
+    margin: 5px 0;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.tag-name {
+    flex-grow: 1;
+    font-size: 1rem;
+}
+
+.tag-actions {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.tag-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+    .tag-btn:hover {
+        background-color: #0056b3;
+    }
+
+.tag-input {
+    padding: 5px 10px;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    margin-top: 0.3rem;
+}
+
+.custom-field {
+    position: relative;
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: inline-block;
+    --field-padding: 12px;
+}
+
+    .custom-field input {
+        border: none;
+        appearance: none;
+        background: #f2f2f2;
+        border-bottom: 1px solid gray;
+        padding: 5px;
+        border-radius: 3px;
+        width: 250px;
+        outline: none;
+        font-size: 14px;
+    }
+
+    .custom-field .placeholder {
+        position: absolute;
+        left: var(--field-padding);
+        width: calc(100% - (var(--field-padding) * 2));
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        top: 22px;
+        line-height: 100%;
+        transform: translateY(-50%);
+        color: #aaa;
+        transition: top 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+    }
+
+    .custom-field input.dirty + .placeholder,
+    .custom-field input:focus + .placeholder,
+    .custom-field input:not(:placeholder-shown) + .placeholder {
+        top: -10px;
+        font-size: 10px;
+        color: #222;
+    }
+
+

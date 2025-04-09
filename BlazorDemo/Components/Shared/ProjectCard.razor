@@ -1,0 +1,17 @@
+﻿@using BlazorDemo.Models
+<div class="card highlight-card h-100">
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title">@Highlight.Title</h5>
+        <p class="card-text flex-grow-1">@Highlight.Description</p>
+        <div>
+            @for (int i = 0; i < Highlight.Tags.Length; i++)
+            {
+                <span class="badge bg-@Highlight.TagColors[i] me-1 mb-1">@Highlight.Tags[i]</span>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public ProjectHighlight Highlight { get; set; }
+}
