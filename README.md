@@ -17,8 +17,8 @@ This is a single-page Blazor Server application that acts as a **personal develo
 - 🔍 **Project Highlights**  
   Modular and reusable cards showcasing select projects with tech badges and descriptions.
 
-- 📄 **Resume Download**  
-  Click to download a PDF version of my CV (non-intrusive download via JS interop to avoid Blazor navigation issues).
+- 📄 **Resume View**  
+  Click to view a PDF version of my CV.
 
 - 💬 **About Me Section**  
   Clear, concise summary of my development approach, background, and personal touch.
